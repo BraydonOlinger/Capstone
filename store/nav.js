@@ -1,4 +1,4 @@
 export default [
   { url: "/home", text: "Home" },
-  { url: "/aboutMe", text: "About Me" }
+  { url: "/about-me", text: "About Me" }
 ];
