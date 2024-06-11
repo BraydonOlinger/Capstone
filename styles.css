@@ -76,6 +76,15 @@ body {
   display: flex;
 }
 
+@media (max-width: 600px) {
+  .images {
+    padding: 5px;
+  }
+  .images img {
+    width: 80%;
+  }
+}
+
 @media screen and (max-width: 768px) {
   .hero-container {
     grid-template-columns: 1fr;
@@ -99,4 +108,46 @@ body {
 
 nav > .fa-bars {
   display: none;
+}
+
+.small-image {
+  width: 200px;
+  height: auto;
+}
+
+/* About Me */
+
+.bio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: white
+}
+
+.images {
+  display: flex;
+  justify-content: left;
+  align-items: flex-start;
+  height: 100%;
+}
+
+.images img {
+  width: 300px;
+  height: auto;
+}
+
+.blurb {
+  display: flex;
+  justify-content: left;
+  height: 100%;
+  padding-bottom: 10px;
+  color: white;
+}
+
+.blurb2 {
+  display: flex;
+  justify-content: left;
+  height: 100%;
+  padding-bottom: 10px;
+  color: white;
 }

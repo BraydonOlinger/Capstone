@@ -8,7 +8,6 @@ export default () => html`<section class="hero">
     <ul>
       <li>
       Email Me: braydonolingermktg@gmail.com
-
       </li>
     </ul>
   </div>
