@@ -6,19 +6,19 @@ import axios from "axios";
 
 const router = new Navigo("/");
 
-function render() {
+function render(state = store.home) {
   document.querySelector("#root").innerHTML = `
-      ${Header()}
-      ${Nav()}
-      ${Main()}
+      ${Header(state)}
+      ${Nav(store.nav)}
+      ${Main(state)}
       ${Footer()}
     `;
   router.updatePageLinks();
 
-  afterRender();
+  afterRender(state);
 }
 
-function afterRender() {
+function afterRender(state) {
   document.querySelector(".fa-bars").addEventListener("click", () => {
     document.querySelector("nav > ul").classList.toggle("hidden--mobile");
   });

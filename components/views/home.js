@@ -1,16 +1,10 @@
 import html from "html-literal";
+import esportSyncLogo from "../../HomePage/images/esportSyncLogo.png";
 
 export default () => html`<section class="hero">
 <div class="hero-containter">
-  <div class="column-left">
-    <img
-    src="./images/logo-no-background.png"
-    alt="logo"
-    class="hero-image"
-    />
-  </div>
-  <div class="column-left">
-    <p>The Premiere Esports Calendar</p>
+  <div class="column-left" id="logo">
+    <img src="${esportSyncLogo}" class="small-image" />
   </div>
 </div>
 </div>
