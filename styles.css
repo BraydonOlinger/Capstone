@@ -115,6 +115,16 @@ nav > .fa-bars {
   height: auto;
 }
 
+/* Home Page */
+
+.weather {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: start;
+  padding-top: 150px;
+  color: white;
+}
+
 /* About Me */
 
 .bio {
