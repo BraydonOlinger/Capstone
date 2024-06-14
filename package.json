@@ -21,6 +21,10 @@
     "prettier": "1.19.1"
   },
   "dependencies": {
+    "@fullcalendar/core": "^6.1.14",
+    "@fullcalendar/daygrid": "^6.1.14",
+    "@fullcalendar/list": "^6.1.14",
+    "@fullcalendar/timegrid": "^6.1.14",
     "axios": "^1.7.2",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
