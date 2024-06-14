@@ -1,12 +1,12 @@
 import html from "html-literal";
 import navItem from "./navItem.js";
 
-export default navItems => html`
+export default state => html`
   <nav>
     <div class="logo">EsportSync</div>
     <i class="fas fa-bars"></i>
     <ul class="hidden--mobile">
-      ${navItems.map(item => navItem(item)).join("")}
+      ${state.map(item => navItem(item)).join("")}
     </ul>
   </nav>
 `;

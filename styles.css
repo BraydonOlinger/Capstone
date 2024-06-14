@@ -4,7 +4,7 @@
   box-sizing: border-box;
   margin: .05rem;
   padding: .05rem;
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif
+  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
 nav {
@@ -113,16 +113,18 @@ nav > .fa-bars {
 .small-image {
   width: 200px;
   height: auto;
+  padding-bottom: 50px;
 }
 
 /* Home Page */
 
-.weather {
-  display: flex;
-  flex-direction: column-reverse;
-  align-items: start;
-  padding-top: 150px;
-  color: white;
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 30px;
+  color: white
 }
 
 /* About Me */
@@ -150,6 +152,7 @@ nav > .fa-bars {
   display: flex;
   justify-content: left;
   height: 100%;
+  padding-top: 1.5%;
   padding-bottom: 10px;
   color: white;
 }
@@ -158,6 +161,28 @@ nav > .fa-bars {
   display: flex;
   justify-content: left;
   height: 100%;
+  padding-top: 1.5%;
   padding-bottom: 10px;
+  color: white;
+}
+
+/* Calendar */
+
+.calendar-container {
+  width: 95%;
+  height: calc(80vh - 80px);
+  margin-left: auto;
+  margin-right: auto;
+  background-color: white;
+}
+
+.event-container {
+  margin: 2em;
+}
+
+#delete-event {
+  margin-top: 2em;
+  padding: 0.5em;
+  background-color: hsl(4deg 99% 50%);
   color: white;
 }

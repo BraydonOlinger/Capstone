@@ -7,8 +7,13 @@ export default state => html`<section class="hero">
     <img src="${esportSyncLogo}" class="small-image" />
   </div>
 </div>
-
-<footer>The weather i</div>n ${state.weather.city} is ${state.weather.description}.
+  </head>
+  <body>
+  <div class="calendar-container">
+    <div id="calendar"></div>
+  </div>
+  </body>
+<footer>The weather in ${state.weather.city} is ${state.weather.description}.
     Temperature is ${state.weather.temp}F, and it feels like
     ${state.weather.feelsLike}F</footer>
 </section>`;
