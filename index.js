@@ -1,7 +1,7 @@
 import { header, nav, main, footer } from "./components";
 import * as store from "./store";
 import Navigo from "navigo";
-import { capitalize } from "lodash";
+import { camelCase, capitalize } from "lodash";
 
 import axios from "axios";
 
@@ -248,11 +248,11 @@ router
   .on({
     "/": () => render(store.home),
     ":view/:id": params => {
-      let view = capitalize(params.data.view);
+      let view = camelCase(params.data.view);
       render(store[view]);
     },
     ":view": params => {
-      let view = capitalize(params.data.view);
+      let view = camelCase(params.data.view);
       render(store[view]);
     }
   })
