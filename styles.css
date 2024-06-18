@@ -76,22 +76,16 @@ body {
   display: flex;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 549px) {
   .images {
     padding: 5px;
   }
   .images img {
     width: 80%;
   }
-}
-
-@media screen and (max-width: 768px) {
   .hero-container {
     grid-template-columns: 1fr;
   }
-}
-
-@media (max-width: 549px){
   .hidden-container {
     display: none !important;
     grid-template-columns: 1fr;
@@ -104,6 +98,24 @@ body {
     justify-content: space-evenly;
     padding: 0 0;
   }
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.hamburger .bar {
+  width: 25px;
+  height: 3px;
+  background-color: white;
+  margin: 4px 0;
+}
+
+nav > i {
+  padding: 1rem;
+  font-size: 2em;
 }
 
 nav > .fa-bars {
@@ -123,7 +135,7 @@ footer {
   bottom: 0;
   left: 0;
   right: 0;
-  height: 30px;
+  line-height: 40px;
   color: white
 }
 
@@ -174,7 +186,7 @@ footer {
   margin-left: auto;
   margin-right: auto;
   background-color: white;
-  position: relative;
+  position: fixed;
   align-items: right;
 }
 

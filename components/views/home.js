@@ -12,8 +12,9 @@ export default state => html`<section class="hero">
   <div class="calendar-container">
     <div id="calendar"></div>
   </div>
+  <script src="scripts.js"></script>
   </body>
-<footer>The weather in ${state.weather.city} is ${state.weather.description}.
-    Temperature is ${state.weather.temp}F, and it feels like
-    ${state.weather.feelsLike}F</footer>
 </section>`;
+/* <footer class="weather">The weather in ${state.weather.city} is ${state.weather.description}.
+    Temperature is ${state.weather.temp}F, and it feels like
+    ${state.weather.feelsLike}F</footer> */

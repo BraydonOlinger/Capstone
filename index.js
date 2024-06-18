@@ -127,7 +127,7 @@ function afterRender(state) {
             .post(`${process.env.API_URL}/appointments`, requestData)
             .then(response => {
               response.data.url = `/appointments/${response.data._id}`;
-              store.Appointments.appointments.push(response.data);
+              store.addEvent.appointments.push(response.data);
               console.log(
                 `Event '${response.data.title}' (${response.data._id}) has been created.`
               );
@@ -146,7 +146,7 @@ function afterRender(state) {
     calendar.render();
   }
 
-  if (state.view === "Appointments") {
+  if (state.view === "addEvent") {
     const deleteButton = document.getElementById("delete-appointment");
     deleteButton.addEventListener("click", event => {
       deleteButton.disabled = true;
@@ -176,31 +176,31 @@ function afterRender(state) {
 //  ADD ROUTER HOOKS HERE ...
 router.hooks({
   before: (done, params) => {
-    let view = "home";
     let id = "";
-
-    if (params && params.data) {
-      view = params.data.view ? capitalize(params.data.view) : "home";
-      id = params.data.id ? params.data.id : "";
-    }
+    const view =
+      params && params.data && params.data.view
+        ? camelCase(params.data.view)
+        : "home";
+    id = params.data.id ? params.data.id : "";
 
     switch (view) {
+      // case "home":
+      //   axios
+      //     .get(
+      //       `https://api.openweathermap.org/data/2.5/weather?q=st.%20louis&appid=${process.env.OPEN_WEATHER_MAP_API_KEY}&units=imperial`
+      //     )
+      //     .then(response => {
+      //       store.home.weather = {};
+      //       store.home.weather.city = response.data.name;
+      //       store.home.weather.temp = response.data.main.temp;
+      //       store.home.weather.feelsLike = response.data.main.feels_like;
+      //       store.home.weather.description = response.data.weather[0].main;
+      //       done();
+      //     })
+      //     .catch(err => console.log(err));
+      //   break;
       case "home":
-        axios
-          .get(
-            `https://api.openweathermap.org/data/2.5/weather?q=st.%20louis&appid=${process.env.OPEN_WEATHER_MAP_API_KEY}&units=imperial`
-          )
-          .then(response => {
-            store.home.weather = {};
-            store.home.weather.city = response.data.name;
-            store.home.weather.temp = response.data.main.temp;
-            store.home.weather.feelsLike = response.data.main.feels_like;
-            store.home.weather.description = response.data.weather[0].main;
-            done();
-          })
-          .catch(err => console.log(err));
-        break;
-      case "Calendar":
+        console.log("I am home");
         axios
           .get(`${process.env.API_URL}/appointments`)
           .then(response => {
@@ -210,22 +210,23 @@ router.hooks({
                 title: event.title || event.customer,
                 start: new Date(event.start),
                 end: new Date(event.end),
-                url: `/appointments/${event._id}`,
+                url: `/addEvent/${event._id}`,
                 allDay: event.allDay || false
               };
             });
-            store.Calendar.appointments = events;
+            console.log(events);
+            store.home.appointments = events;
             done();
           })
           .catch(error => {
             console.log("It puked", error);
           });
         break;
-      case "Appointments":
+      case "addEvent":
         axios
           .get(`${process.env.API_URL}/appointments/${id}`)
           .then(response => {
-            store.Appointments.event = {
+            store.addEvent.event = {
               id: response.data._id,
               title: response.data.title || response.data.customer,
               start: new Date(response.data.start),
