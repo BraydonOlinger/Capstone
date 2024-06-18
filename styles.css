@@ -170,10 +170,12 @@ footer {
 
 .calendar-container {
   width: 95%;
-  height: calc(80vh - 80px);
+  height: calc(70vh - 70px);
   margin-left: auto;
   margin-right: auto;
   background-color: white;
+  position: relative;
+  align-items: right;
 }
 
 .event-container {
