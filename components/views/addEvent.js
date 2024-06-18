@@ -8,7 +8,7 @@ export default state => html`
         <em>Start: </em><span>${state.event?.start?.toLocaleString()}</span>
       </div>
       <div><em>End: </em><span>${state.event?.end?.toLocaleString()}</span></div>
-      <button id="delete-event" data-id="${state.event.id}">
+      <button id="delete-appointment" data-id="${state.event.id}">
         Delete Event
       </button>
     </div>
