@@ -28,5 +28,11 @@ export default () => html`
         schedules!
       </p>
     </div>
+    <div class = "links">
+      <ul>
+        <li>- Check out my Digital Marketing Portfolio <a href="https://braydon-olinger.my.canva.site/">HERE.</a></li>
+        <li>- Connect with me on <a href="https://www.linkedin.com/in/braydon-olinger-191775171/">LinkedIn.</a></li>
+        <li>- Follow me on <a href="https://x.com/Olinbear">Twitter</a> (I'm not calling it X.)</li>
+      </ul>
   </section>
 `;

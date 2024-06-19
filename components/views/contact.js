@@ -1,5 +1,4 @@
 import html from "html-literal";
-import headshot from "../../HomePage/images/headshot.jpg";
 
 export default () => html`
   <section class="hero">
