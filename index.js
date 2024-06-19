@@ -181,7 +181,7 @@ router.hooks({
       params && params.data && params.data.view
         ? camelCase(params.data.view)
         : "home";
-    id = params.data.id ? params.data.id : "";
+    id = params.data ? params.data.id : "";
 
     switch (view) {
       // case "home":

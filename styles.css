@@ -178,6 +178,33 @@ footer {
   color: white;
 }
 
+.links {
+  display: flex;
+  justify-content: left;
+  height: 100%;
+  padding-top: 1.5%;
+  padding-bottom: 10px;
+  color: white;
+}
+
+.links a:link {
+  color: blue;
+  background-color: transparent;
+  text-decoration: none;
+}
+
+.links a:visited {
+  color: yellow;
+  background-color: tranpsarent;
+  text-decoration: none;
+}
+
+.links a:active {
+  color: red;
+  background-color: tranpsarent;
+  text-decoration: none;
+}
+
 /* Calendar */
 
 .calendar-container {
