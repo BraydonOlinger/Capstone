@@ -146,6 +146,14 @@ function afterRender(state) {
     calendar.render();
   }
 
+  function getCalendar() {
+    return axios.get(`${process.env.API_URL}/home`);
+  }
+
+  function getWeather() {
+    return axios.get(`${process.env.OPEN_WEATHER_MAP_API_KEY}/weather/st%20louis`);
+  }
+
   if (state.view === "addEvent") {
     const deleteButton = document.getElementById("delete-appointment");
     deleteButton.addEventListener("click", event => {
@@ -199,7 +207,28 @@ router.hooks({
       //     })
       //     .catch(err => console.log(err));
       //   break;
+
       case "home":
+        Promise.all([getCalendar(), getWeather()])
+          .then([calendarData, weatherData]) => {
+            console.log("CalendarData", calendarData);
+            console.log("WeatherData", weatherData);
+
+            store.calendar.calendars = calendarData.data;
+
+            store.home.weather = {
+              city: weatherData.data.city,
+              temp: weatherData.data.temp,
+              feelsLike: weatherData.data.feelsLike,
+              description: weatherData.data.description
+            };
+            done();
+          })
+          .catch((err) => {
+            console.log(err);
+            done();
+          });
+
         console.log("I am home");
         axios
           .get(`${process.env.API_URL}/appointments`)
