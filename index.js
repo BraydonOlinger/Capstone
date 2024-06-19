@@ -146,14 +146,6 @@ function afterRender(state) {
     calendar.render();
   }
 
-  function getCalendar() {
-    return axios.get(`${process.env.API_URL}/home`);
-  }
-
-  function getWeather() {
-    return axios.get(`${process.env.OPEN_WEATHER_MAP_API_KEY}/weather/st%20louis`);
-  }
-
   if (state.view === "addEvent") {
     const deleteButton = document.getElementById("delete-appointment");
     deleteButton.addEventListener("click", event => {
@@ -183,7 +175,7 @@ function afterRender(state) {
 
 //  ADD ROUTER HOOKS HERE ...
 router.hooks({
-  before: (done, params) => {
+  before: async (done, params) => {
     let id = "";
     const view =
       params && params.data && params.data.view
@@ -209,47 +201,38 @@ router.hooks({
       //   break;
 
       case "home":
-        Promise.all([getCalendar(), getWeather()])
-          .then([calendarData, weatherData]) => {
-            console.log("CalendarData", calendarData);
-            console.log("WeatherData", weatherData);
-
-            store.calendar.calendars = calendarData.data;
-
-            store.home.weather = {
-              city: weatherData.data.city,
-              temp: weatherData.data.temp,
-              feelsLike: weatherData.data.feelsLike,
-              description: weatherData.data.description
+        try {
+          const appointmentData = await axios.get(
+            `${process.env.API_URL}/appointments`
+          );
+          const weatherData = await axios.get(
+            `${process.env.OPEN_WEATHER_MAP_API_KEY}/weather/st%20louis`
+          );
+          const events = appointmentData.data.map(event => {
+            return {
+              id: event._id,
+              title: event.title || event.customer,
+              start: new Date(event.start),
+              end: new Date(event.end),
+              url: `/addEvent/${event._id}`,
+              allDay: event.allDay || false
             };
-            done();
-          })
-          .catch((err) => {
-            console.log(err);
-            done();
           });
+          console.log(events);
+          store.home.appointments = events;
 
-        console.log("I am home");
-        axios
-          .get(`${process.env.API_URL}/appointments`)
-          .then(response => {
-            const events = response.data.map(event => {
-              return {
-                id: event._id,
-                title: event.title || event.customer,
-                start: new Date(event.start),
-                end: new Date(event.end),
-                url: `/addEvent/${event._id}`,
-                allDay: event.allDay || false
-              };
-            });
-            console.log(events);
-            store.home.appointments = events;
-            done();
-          })
-          .catch(error => {
-            console.log("It puked", error);
-          });
+          store.home.weather = {
+            city: weatherData.data.city,
+            temp: weatherData.data.temp,
+            feelsLike: weatherData.data.feelsLike,
+            description: weatherData.data.description
+          };
+          done();
+        } catch (error) {
+          console.log(error);
+          done();
+        }
+
         break;
       case "addEvent":
         axios
