@@ -257,6 +257,24 @@ router.hooks({
   }
 });
 
+switch (view) {
+  case "events":
+    axios
+      .get(`${process.env.API_URL}/appointments/`)
+      .then(response => {
+        store.appointment.appointments = response.data;
+        done();
+      })
+      .catch(error => {
+        console.log("It puked", error);
+        done();
+      });
+    break;
+
+  default:
+    done();
+}
+
 router
   .on({
     "/": () => render(store.home),

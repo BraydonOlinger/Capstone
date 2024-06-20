@@ -1,4 +1,4 @@
 export default {
-  header: "viewNotFound",
+  header: "404 - Not Found",
   view: "viewNotFound"
 };
