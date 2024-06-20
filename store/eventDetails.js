@@ -1,6 +1,6 @@
 export default {
   title: "Schedule an Event",
-  view: "addEvent",
+  view: "eventDetails",
   event: {},
   appointments: []
 };

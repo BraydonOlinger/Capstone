@@ -213,8 +213,7 @@ footer {
   margin-left: auto;
   margin-right: auto;
   background-color: white;
-  position: fixed;
-  align-items: right;
+  align-items: center;
 }
 
 .event-container {
@@ -226,4 +225,11 @@ footer {
   padding: 0.5em;
   background-color: hsl(4deg 99% 50%);
   color: white;
+}
+
+/* Delete Event Page */
+
+.event-container {
+  color: white;
+  line-height: 25px;
 }

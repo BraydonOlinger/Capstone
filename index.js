@@ -127,7 +127,7 @@ function afterRender(state) {
             .post(`${process.env.API_URL}/appointments`, requestData)
             .then(response => {
               response.data.url = `/appointments/${response.data._id}`;
-              store.addEvent.appointments.push(response.data);
+              store.eventDetails.appointments.push(response.data);
               console.log(
                 `Event '${response.data.title}' (${response.data._id}) has been created.`
               );
@@ -146,7 +146,7 @@ function afterRender(state) {
     calendar.render();
   }
 
-  if (state.view === "addEvent") {
+  if (state.view === "eventDetails") {
     const deleteButton = document.getElementById("delete-appointment");
     deleteButton.addEventListener("click", event => {
       deleteButton.disabled = true;
@@ -214,7 +214,7 @@ router.hooks({
               title: event.title || event.customer,
               start: new Date(event.start),
               end: new Date(event.end),
-              url: `/addEvent/${event._id}`,
+              url: `/eventDetails/${event._id}`,
               allDay: event.allDay || false
             };
           });
@@ -234,11 +234,11 @@ router.hooks({
         }
 
         break;
-      case "addEvent":
+      case "eventDetails":
         axios
           .get(`${process.env.API_URL}/appointments/${id}`)
           .then(response => {
-            store.addEvent.event = {
+            store.eventDetails.event = {
               id: response.data._id,
               title: response.data.title || response.data.customer,
               start: new Date(response.data.start),
