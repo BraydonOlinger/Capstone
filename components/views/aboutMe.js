@@ -25,15 +25,15 @@ export default () => html`
       <p>
         I created EsportSync as a way for teams and (and fans alike) to
         centralize their favorite esports title or team's match & tournament
-        schedules!
+        schedules.
       </p>
     </div>
     <div class = "links">
       <ul>
-        <li>- Check out my Digital Marketing Portfolio <a href="https://braydon-olinger.my.canva.site/">HERE.</a></li>
+        <li>- Check out my <a href="https://braydon-olinger.my.canva.site/">Digital Marketing Portfolio.</a></li>
         <li>- Connect with me on <a href="https://www.linkedin.com/in/braydon-olinger-191775171/">LinkedIn.</a></li>
-        <li>- Follow me on <a href="https://x.com/Olinbear">Twitter</a> (I'm not calling it X.)</li>
-        <li>- Keep up with my coding journies by following my<a href="https://github.com/BraydonOlinger">Github</a></li>
+        <li>- Follow me on <a href="https://x.com/Olinbear">Twitter</a> (I won't call it X).</li>
+        <li>- Keep up with my coding journey by following my <a href="https://github.com/BraydonOlinger">Github</a></li>
       </ul>
   </section>
 `;
