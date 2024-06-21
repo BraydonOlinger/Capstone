@@ -1,16 +1,20 @@
 import html from "html-literal";
 
-export default state => html`
+export default state => {
+  console.log(state);
+  console.log(state.appointment);
+  return html`
   <section class="hero">
     <div class="event-container">
-      <h3>${state.event?.title}</h3>
+      <h3>${state.appointment?.title}</h3>
       <div>
-        <em>Start: </em><span>${state.event?.start?.toLocaleString()}</span>
+        <em>Start: </em><span>${state.appointment?.start?.toLocaleString()}</span>
       </div>
-      <div><em>End: </em><span>${state.event?.end?.toLocaleString()}</span></div>
-      <button id="delete-appointment" data-id="${state.event.id}">
+      <div><em>End: </em><span>${state.appointment?.end?.toLocaleString()}</span></div>
+      <button id="delete-appointment" data-id="${state.appointment?.id}">
         Delete Event
       </button>
     </div>
   </section>
 `;
+}

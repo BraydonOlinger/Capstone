@@ -56,7 +56,25 @@ function afterRender(state) {
       document.querySelector("nav > ul").classList.toggle("hidden--mobile")
     );
 
-  if (state.view === "Schedule") {
+  if (state.view === "contactMe") {
+    document
+      .getElementById("contactForm")
+      .addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const message = document.getElementById("message").value;
+
+        if (!name || !email || !message) {
+          alert("Please fill in all fields.");
+          return false;
+        }
+        console.log("Form submitted:", { name, email, message });
+      });
+  }
+
+  if (state.view === "home") {
     document.querySelector("form").addEventListener("submit", event => {
       event.preventDefault();
 
@@ -79,9 +97,7 @@ function afterRender(state) {
           console.log("It puked", error);
         });
     });
-  }
 
-  if (state.view === "home") {
     const calendarEl = document.getElementById("calendar");
     calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: "dayGridMonth",
@@ -157,7 +173,6 @@ function afterRender(state) {
             `${process.env.API_URL}/appointments/${event.target.dataset.id}`
           )
           .then(response => {
-            // Push the new pizza onto the Pizza state pizzas attribute, so it can be displayed in the pizza list
             console.log(
               `Event '${response.data.title}' (${response.data._id}) has been deleted.`
             );
@@ -238,7 +253,7 @@ router.hooks({
         axios
           .get(`${process.env.API_URL}/appointments/${id}`)
           .then(response => {
-            store.eventDetails.event = {
+            store.eventDetails.appointment = {
               id: response.data._id,
               title: response.data.title || response.data.customer,
               start: new Date(response.data.start),
@@ -254,32 +269,33 @@ router.hooks({
       default:
         done();
     }
+
+    switch (view) {
+      case "events":
+        axios
+          .get(`${process.env.API_URL}/appointments/`)
+          .then(response => {
+            store.appointment.appointments = response.data;
+            done();
+          })
+          .catch(error => {
+            console.log("It puked", error);
+            done();
+          });
+        break;
+
+      default:
+        done();
+    }
   }
 });
-
-switch (view) {
-  case "events":
-    axios
-      .get(`${process.env.API_URL}/appointments/`)
-      .then(response => {
-        store.appointment.appointments = response.data;
-        done();
-      })
-      .catch(error => {
-        console.log("It puked", error);
-        done();
-      });
-    break;
-
-  default:
-    done();
-}
 
 router
   .on({
     "/": () => render(store.home),
     ":view/:id": params => {
       let view = camelCase(params.data.view);
+      console.log(view);
       render(store[view]);
     },
     ":view": params => {
