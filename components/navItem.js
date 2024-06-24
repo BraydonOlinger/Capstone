@@ -2,8 +2,8 @@ import html from "html-literal";
 
 export default item => {
   return html`
-    <li>
+    <p>
       <a href="${item.url}" title="${item.text}" data-navigo>${item.text}</a>
-    </li>
+    </p>
   `;
 };

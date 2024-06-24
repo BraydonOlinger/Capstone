@@ -56,32 +56,48 @@ function afterRender(state) {
       document.querySelector("nav > ul").classList.toggle("hidden--mobile")
     );
 
-  if (state.view === "Schedule") {
-    document.querySelector("form").addEventListener("submit", event => {
-      event.preventDefault();
+  if (state.view === "contactMe") {
+    document
+      .getElementById("contactForm")
+      .addEventListener("submit", function(event) {
+        event.preventDefault();
 
-      const inputList = event.target.elements;
+        const name = document.getElementById("name").value;
+        const email = document.getElementById("email").value;
+        const message = document.getElementById("message").value;
 
-      const requestData = {
-        title: inputList.title.value,
-        allDay: inputList.allDay.checked,
-        start: new Date(inputList.start.value).toJSON(),
-        end: new Date(inputList.end.value).toJSON()
-      };
-
-      axios
-        .post(`${process.env.API_URL}/appointments`, requestData)
-        .then(response => {
-          store.Calendar.appointments.push(response.data);
-          router.navigate("/home");
-        })
-        .catch(error => {
-          console.log("It puked", error);
-        });
-    });
+        if (!name || !email || !message) {
+          alert("Please fill in all fields.");
+          return false;
+        }
+        console.log("Form submitted:", { name, email, message });
+      });
   }
 
   if (state.view === "home") {
+    // document.querySelector("form").addEventListener("submit", event => {
+    //   event.preventDefault();
+
+    //   const inputList = event.target.elements;
+
+    //   const requestData = {
+    //     title: inputList.title.value,
+    //     allDay: inputList.allDay.checked,
+    //     start: new Date(inputList.start.value).toJSON(),
+    //     end: new Date(inputList.end.value).toJSON()
+    //   };
+
+    //   axios
+    //     .post(`${process.env.API_URL}/appointments`, requestData)
+    //     .then(response => {
+    //       store.Calendar.appointments.push(response.data);
+    //       router.navigate("/home");
+    //     })
+    //     .catch(error => {
+    //       console.log("It puked", error);
+    //     });
+    // });
+
     const calendarEl = document.getElementById("calendar");
     calendar = new FullCalendar.Calendar(calendarEl, {
       initialView: "dayGridMonth",
@@ -157,7 +173,6 @@ function afterRender(state) {
             `${process.env.API_URL}/appointments/${event.target.dataset.id}`
           )
           .then(response => {
-            // Push the new pizza onto the Pizza state pizzas attribute, so it can be displayed in the pizza list
             console.log(
               `Event '${response.data.title}' (${response.data._id}) has been deleted.`
             );
@@ -187,7 +202,7 @@ router.hooks({
       // case "home":
       //   axios
       //     .get(
-      //       `https://api.openweathermap.org/data/2.5/weather?q=st.%20louis&appid=${process.env.OPEN_WEATHER_MAP_API_KEY}&units=imperial`
+      //       ``
       //     )
       //     .then(response => {
       //       store.home.weather = {};
@@ -206,7 +221,7 @@ router.hooks({
             `${process.env.API_URL}/appointments`
           );
           const weatherData = await axios.get(
-            `${process.env.OPEN_WEATHER_MAP_API_KEY}/weather/st%20louis`
+            `https://api.openweathermap.org/data/2.5/weather?q=st.%20louis&appid=${process.env.OPEN_WEATHER_MAP_API_KEY}&units=imperial`
           );
           const events = appointmentData.data.map(event => {
             return {
@@ -220,9 +235,8 @@ router.hooks({
           });
           console.log(events);
           store.home.appointments = events;
-
           store.home.weather = {
-            city: weatherData.data.city,
+            city: weatherData.data.main.temp.name,
             temp: weatherData.data.temp,
             feelsLike: weatherData.data.feelsLike,
             description: weatherData.data.description
@@ -235,51 +249,52 @@ router.hooks({
 
         break;
       case "eventDetails":
+        try {
+          const eventDetailResponse = await axios.get(
+            `${process.env.API_URL}/appointments/${id}`
+          );
+
+          store.eventDetails.appointment = {
+            id: eventDetailResponse.data._id,
+            title:
+              eventDetailResponse.data.title ||
+              eventDetailResponse.data.customer,
+            start: new Date(eventDetailResponse.data.start),
+            end: new Date(eventDetailResponse.data.end),
+            url: `/appointment/${eventDetailResponse.data._id}`
+          };
+          done();
+        } catch (error) {
+          console.log(error);
+          done();
+        }
+        break;
+
+      case "events":
         axios
-          .get(`${process.env.API_URL}/appointments/${id}`)
+          .get(`${process.env.API_URL}/appointments/`)
           .then(response => {
-            store.eventDetails.event = {
-              id: response.data._id,
-              title: response.data.title || response.data.customer,
-              start: new Date(response.data.start),
-              end: new Date(response.data.end),
-              url: `/appointment/${response.data._id}`
-            };
+            store.events.appointments = response.data;
             done();
           })
           .catch(error => {
             console.log("It puked", error);
+            done();
           });
         break;
+
       default:
         done();
     }
   }
 });
 
-switch (view) {
-  case "events":
-    axios
-      .get(`${process.env.API_URL}/appointments/`)
-      .then(response => {
-        store.appointment.appointments = response.data;
-        done();
-      })
-      .catch(error => {
-        console.log("It puked", error);
-        done();
-      });
-    break;
-
-  default:
-    done();
-}
-
 router
   .on({
     "/": () => render(store.home),
     ":view/:id": params => {
       let view = camelCase(params.data.view);
+      console.log(view);
       render(store[view]);
     },
     ":view": params => {
