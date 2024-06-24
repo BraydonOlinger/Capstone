@@ -75,28 +75,28 @@ function afterRender(state) {
   }
 
   if (state.view === "home") {
-    document.querySelector("form").addEventListener("submit", event => {
-      event.preventDefault();
+    // document.querySelector("form").addEventListener("submit", event => {
+    //   event.preventDefault();
 
-      const inputList = event.target.elements;
+    //   const inputList = event.target.elements;
 
-      const requestData = {
-        title: inputList.title.value,
-        allDay: inputList.allDay.checked,
-        start: new Date(inputList.start.value).toJSON(),
-        end: new Date(inputList.end.value).toJSON()
-      };
+    //   const requestData = {
+    //     title: inputList.title.value,
+    //     allDay: inputList.allDay.checked,
+    //     start: new Date(inputList.start.value).toJSON(),
+    //     end: new Date(inputList.end.value).toJSON()
+    //   };
 
-      axios
-        .post(`${process.env.API_URL}/appointments`, requestData)
-        .then(response => {
-          store.Calendar.appointments.push(response.data);
-          router.navigate("/home");
-        })
-        .catch(error => {
-          console.log("It puked", error);
-        });
-    });
+    //   axios
+    //     .post(`${process.env.API_URL}/appointments`, requestData)
+    //     .then(response => {
+    //       store.Calendar.appointments.push(response.data);
+    //       router.navigate("/home");
+    //     })
+    //     .catch(error => {
+    //       console.log("It puked", error);
+    //     });
+    // });
 
     const calendarEl = document.getElementById("calendar");
     calendar = new FullCalendar.Calendar(calendarEl, {
@@ -202,7 +202,7 @@ router.hooks({
       // case "home":
       //   axios
       //     .get(
-      //       `https://api.openweathermap.org/data/2.5/weather?q=st.%20louis&appid=${process.env.OPEN_WEATHER_MAP_API_KEY}&units=imperial`
+      //       ``
       //     )
       //     .then(response => {
       //       store.home.weather = {};
@@ -221,7 +221,7 @@ router.hooks({
             `${process.env.API_URL}/appointments`
           );
           const weatherData = await axios.get(
-            `${process.env.OPEN_WEATHER_MAP_API_KEY}/weather/st%20louis`
+            `https://api.openweathermap.org/data/2.5/weather?q=st.%20louis&appid=${process.env.OPEN_WEATHER_MAP_API_KEY}&units=imperial`
           );
           const events = appointmentData.data.map(event => {
             return {
@@ -235,9 +235,8 @@ router.hooks({
           });
           console.log(events);
           store.home.appointments = events;
-
           store.home.weather = {
-            city: weatherData.data.city,
+            city: weatherData.data.main.temp.name,
             temp: weatherData.data.temp,
             feelsLike: weatherData.data.feelsLike,
             description: weatherData.data.description
@@ -250,32 +249,32 @@ router.hooks({
 
         break;
       case "eventDetails":
-        axios
-          .get(`${process.env.API_URL}/appointments/${id}`)
-          .then(response => {
-            store.eventDetails.appointment = {
-              id: response.data._id,
-              title: response.data.title || response.data.customer,
-              start: new Date(response.data.start),
-              end: new Date(response.data.end),
-              url: `/appointment/${response.data._id}`
-            };
-            done();
-          })
-          .catch(error => {
-            console.log("It puked", error);
-          });
-        break;
-      default:
-        done();
-    }
+        try {
+          const eventDetailResponse = await axios.get(
+            `${process.env.API_URL}/appointments/${id}`
+          );
 
-    switch (view) {
+          store.eventDetails.appointment = {
+            id: eventDetailResponse.data._id,
+            title:
+              eventDetailResponse.data.title ||
+              eventDetailResponse.data.customer,
+            start: new Date(eventDetailResponse.data.start),
+            end: new Date(eventDetailResponse.data.end),
+            url: `/appointment/${eventDetailResponse.data._id}`
+          };
+          done();
+        } catch (error) {
+          console.log(error);
+          done();
+        }
+        break;
+
       case "events":
         axios
           .get(`${process.env.API_URL}/appointments/`)
           .then(response => {
-            store.appointment.appointments = response.data;
+            store.events.appointments = response.data;
             done();
           })
           .catch(error => {

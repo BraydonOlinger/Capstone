@@ -333,4 +333,16 @@ button:hover {
   background-color: #0056b3;
 }
 
+/* View Events */
 
+#eventTable {
+  color: white;
+  line-height: 25px;
+  padding-bottom: 10px;
+}
+
+.events {
+  color: white;
+  line-height: 25px;
+  padding-bottom: 10px;
+}
