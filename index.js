@@ -236,10 +236,10 @@ router.hooks({
           console.log(events);
           store.home.appointments = events;
           store.home.weather = {
-            city: weatherData.data.main.temp.name,
-            temp: weatherData.data.temp,
-            feelsLike: weatherData.data.feelsLike,
-            description: weatherData.data.description
+            city: weatherData.data.name,
+            temp: weatherData.data.main.temp,
+            feelsLike: weatherData.data.main.feels_like,
+            description: weatherData.data.weather[0].main
           };
           done();
         } catch (error) {
